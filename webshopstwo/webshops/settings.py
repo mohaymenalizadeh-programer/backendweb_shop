@@ -3,8 +3,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-zv*v9)z&*%@$)%-i7c1(#w4fb2udgz2ry3a4jbwikr2bth7!7j'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['api.yadakkan.ir', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,7 +24,6 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -85,33 +86,26 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
+    "https://yadakkan.ir",
+    "https://www.yadakkan.ir",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://yadakkan.ir",
-    "https://yadakkan.ir",
-    "http://api.yadakkan.ir",
-    "https://api.yadakkan.ir",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://yadakkan.ir",
+    "https://www.yadakkan.ir",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://yadakkan.ir",
-    "https://yadakkan.ir",
-    "http://api.yadakkan.ir",
-    "https://api.yadakkan.ir",
 ]
 
-SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = False
 CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SANDBOX = True
