@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Verification, Profile
+from accounts.authentication import CsrfExemptSessionAuthentication
 
 MELIPAYAMAK_USERNAME = "989115299739"
 MELIPAYAMAK_APIKEY = "e6d24a13-b319-4037-996f-eb0c26c33ca7"
@@ -131,7 +132,7 @@ class LoginView(APIView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class LogoutView(APIView):
-    authentication_classes = [SessionAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -141,7 +142,7 @@ class LogoutView(APIView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class UserProfileView(APIView):
-    authentication_classes = [SessionAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

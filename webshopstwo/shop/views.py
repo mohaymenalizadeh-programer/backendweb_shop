@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models import Brand, Cart, CartItem, Category, Comment, Order, OrderItem, Product , ContactMessage
 from .serializers import BrandSerializer, CartSerializer, CategorySerializer, ProductSerializer , ContactSerializer
-
+from accounts.authentication import CsrfExemptSessionAuthentication
 
 class ShopView(APIView):
   def get(self, request):
@@ -75,7 +75,7 @@ class ProductListView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CartView(APIView):
-  authentication_classes = [SessionAuthentication]
+  authentication_classes = [CsrfExemptSessionAuthentication]
   permission_classes = [IsAuthenticated]
 
   def get(self, request):
@@ -86,7 +86,7 @@ class CartView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AddToCartView(APIView):
-  authentication_classes = [SessionAuthentication]
+  authentication_classes = [CsrfExemptSessionAuthentication]
   permission_classes = [IsAuthenticated]
 
   def post(self, request):
@@ -113,7 +113,7 @@ class AddToCartView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UpdateCartItemView(APIView):
-  authentication_classes = [SessionAuthentication]
+  authentication_classes = [CsrfExemptSessionAuthentication]
   permission_classes = [IsAuthenticated]
 
   def post(self, request):
@@ -242,7 +242,7 @@ def send_request(request):
       continue
 
   request.session['pending_order_id'] = order.id
-  CallbackURL = f'http://127.0.0.1:8000/api/verify/?order_id={order.id}'
+  CallbackURL = f'https://yadakkan.ir/api/verify/?order_id={order.id}'
 
   z_data = {
       'merchant_id': settings.MERCHANT,
@@ -285,7 +285,7 @@ def verify(request):
     try:
         order = Order.objects.get(id=order_id)
     except (Order.DoesNotExist, ValueError, TypeError):
-        return redirect('http://localhost:5173/payment-failed?code=notfound')
+        return redirect('https://yadakkan.ir/payment-failed?code=notfound')
 
     if status == 'OK':
         data = {
@@ -319,12 +319,12 @@ def verify(request):
                 if 'pending_order_id' in request.session:
                     del request.session['pending_order_id']
 
-                return redirect(f'http://localhost:5173/payment-success?ref_id={ref_id}')
+                return redirect(f'https://yadakkan.ir/payment-success?ref_id={ref_id}')
             else:
                 error_code = res_data.get('errors', {}).get('code', 'unknown')
-                return redirect(f'http://localhost:5173/payment-failed?code={error_code}')
+                return redirect(f'https://yadakkan.ir/payment-failed?code={error_code}')
 
-    return redirect('http://localhost:5173/payment-failed?code=cancelled')
+    return redirect('https://yadakkan.ir/payment-failed?code=cancelled')
 
 
 @api_view(['GET'])
