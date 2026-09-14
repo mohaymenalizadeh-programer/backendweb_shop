@@ -4,7 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-zv*v9)z&*%@$)%-i7c1(#w4fb2udgz2ry3a4jbwikr2bth7!7j'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['api.yadakkan.ir', 'localhost', '127.0.0.1']
 
